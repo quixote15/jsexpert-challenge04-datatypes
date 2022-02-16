@@ -48,7 +48,7 @@ class CustomTerminal {
     // TODO: inserir valor na estrutura escolhida. // dica: talvez o data.id seja uma informação importante nesse trecho
    // console.log(data)
     
-    this[kData] = data.map(({id, symbol, name, cmc_rank, total_supply} ) => ({id, symbol, name, cmc_rank, total_supply}))
+    this[kData] = data//.map(({id, symbol, name, cmc_rank, total_supply, quote} ) => new Crypto({id, symbol, name, cmc_rank, total_supply, quote}))
   }
 
   getDataById(id) {

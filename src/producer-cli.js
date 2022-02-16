@@ -22,6 +22,8 @@ io.on('connection', socket => {
   terminal.printSuccess(`Real time update: user [${socket.id}] connected!`);
 });
 
+
+
 async function mainLoop() {
   try {
     if (users.hasUsers()) {
@@ -77,7 +79,7 @@ async function mainLoop() {
         });
         terminal.printSuccess(
           'REGISTER SUCCESSFULLY SELECTED AND SENT TO THE FOLLOWING USERS: \n' +
-            Array.from(users).join(', ') +
+            [...users].join(', ') +
             '\n'
         );
         await terminal.wait(1000);
