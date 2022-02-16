@@ -46,9 +46,13 @@ class CustomTerminal {
    */
   addDataToPrint(data) {
     // TODO: inserir valor na estrutura escolhida. // dica: talvez o data.id seja uma informação importante nesse trecho
-   // console.log(data)
-    
-    this[kData] = data//.map(({id, symbol, name, cmc_rank, total_supply, quote} ) => new Crypto({id, symbol, name, cmc_rank, total_supply, quote}))
+    //concat cria um novo array unindo todos os elementos que foram passados como parâmetro, na ordem dada, para cada argumento e seus elementos (se o elemento passado for um array).
+    // concat melhor que spread [...this[kData], ...data]
+    // Entretanto concat é pior que push [reference: https://dev.to/uilicious/javascript-array-push-is-945x-faster-than-array-concat-1oki]
+
+    // Array.concat cria um novo array e copia o conteudo dos dois arrays
+    // Array.push([]) preserva a referencia do primeiro array e copia os elementos do segundo
+    this[kData].push(...data) 
   }
 
   getDataById(id) {
