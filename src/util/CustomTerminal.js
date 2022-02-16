@@ -10,11 +10,13 @@ const TABLE_OPTIONS = terminalConfig.table;
 const kPrint = Symbol('kPrint');
 // TODO: Criar um Symbol para a propriedade privada 'kData'
 const kTerminal = Symbol('kTerminal');
+const kData = Symbol('kData');
 
 class CustomTerminal {
   constructor() {
     this[kPrint] = {};
     // TODO: inicializar a propriedade privada 'kData' como uma estrutura importante vista no curso
+    this[kData] = []
     this[kTerminal] = null;
   }
 
@@ -28,14 +30,15 @@ class CustomTerminal {
 
   draftTable() {
     // TODO: Parece que a linha a seguir precisa de um array gerado a partir dos valores da estrutura escolhida...🤔
-    const data = [];
+    const data = this[kData];//this[kData];
+    //console.log('current KData: ', this[kData]);
     const table = chalkTable(TABLE_OPTIONS, data);
     this[kPrint] = console.draft(table);
   }
 
   hasDataToPrint() {
     // TODO: Como saber se tem informação dentro da estrutura escolhida?
-    return false;
+    return this[kData].length > 0;
   }
   /**
    * Dado um array de objetos, adiciona cada registro aos dados a serem impressos.
@@ -43,15 +46,19 @@ class CustomTerminal {
    */
   addDataToPrint(data) {
     // TODO: inserir valor na estrutura escolhida. // dica: talvez o data.id seja uma informação importante nesse trecho
+   // console.log(data)
+    
+    this[kData] = data.map(({id, symbol, name, cmc_rank, total_supply} ) => ({id, symbol, name, cmc_rank, total_supply}))
   }
 
   getDataById(id) {
     // TODO: Pegar informação da estrutura escolhida.
-    return undefined;
+    return this[kData].find(item => item.id === id)
   }
 
   removeDataById(id) {
     // TODO: Remove informação da estrutura escolhida.
+    this[kData] = this[kData].filter(item => item.id !== id)
     return undefined;
   }
 

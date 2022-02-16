@@ -40,6 +40,7 @@ async function mainLoop() {
     );
     if (!terminal.hasDataToPrint()) {
       const { value } = await cryptoGenerator.next();
+
       terminal.addDataToPrint(value);
     }
 
