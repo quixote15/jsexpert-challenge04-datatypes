@@ -1,22 +1,23 @@
-import DraftLog from 'draftlog';
-import chalkTable from 'chalk-table';
-import chalk from 'chalk';
-import readline from 'readline';
-import asciichart from 'asciichart';
-import terminalConfig from '../config/terminal.js';
+import DraftLog from "draftlog";
+import chalkTable from "chalk-table";
+import chalk from "chalk";
+import readline from "readline";
+import asciichart from "asciichart";
+import terminalConfig from "../config/terminal.js";
 
 const TABLE_OPTIONS = terminalConfig.table;
+const table = chalkTable(TABLE_OPTIONS, data);
 
-const kPrint = Symbol('kPrint');
+const kPrint = Symbol("kPrint");
 // TODO: Criar um Symbol para a propriedade privada 'kData'
-const kTerminal = Symbol('kTerminal');
-const kData = Symbol('kData');
+const kTerminal = Symbol("kTerminal");
+const kData = Symbol("kData");
 
 class CustomTerminal {
   constructor() {
     this[kPrint] = {};
     // TODO: inicializar a propriedade privada 'kData' como uma estrutura importante vista no curso
-    this[kData] = []
+    this[kData] = [];
     this[kTerminal] = null;
   }
 
@@ -30,7 +31,7 @@ class CustomTerminal {
 
   draftTable() {
     // TODO: Parece que a linha a seguir precisa de um array gerado a partir dos valores da estrutura escolhida...🤔
-    const data = this[kData];//this[kData];
+    const data = this[kData]; //this[kData];
     //console.log('current KData: ', this[kData]);
     const table = chalkTable(TABLE_OPTIONS, data);
     this[kPrint] = console.draft(table);
@@ -52,18 +53,19 @@ class CustomTerminal {
 
     // Array.concat cria um novo array e copia o conteudo dos dois arrays
     // Array.push([]) preserva a referencia do primeiro array e copia os elementos do segundo
-    this[kData].push(...data) 
+    this[kData].push(...data);
   }
 
   getDataById(id) {
     // TODO: Pegar informação da estrutura escolhida.
-    return this[kData].find(item => item.id === id)
+    return this[kData].find((item) => item.id === id);
   }
 
   removeDataById(id) {
     // TODO: Remove informação da estrutura escolhida.
-    this[kData] = this[kData].filter(item => item.id !== id)
-    return undefined;
+    const foundData = this[kData].find((item) => item.id === id);
+    this[kData] = this[kData].filter((item) => item.id !== id);
+    return foundData;
   }
 
   plotQuoteChart(data) {
@@ -94,16 +96,20 @@ class CustomTerminal {
     this.print(chalk.red(message));
   }
 
-  async readLine(label = '') {
-    return new Promise(resolve => this[kTerminal].question(label, resolve));
+  async readLine(label = "") {
+    return new Promise((resolve) => this[kTerminal].question(label, resolve));
   }
 
   wait(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   close() {
     this[kTerminal].close();
+  }
+
+  get length() {
+    return this[kData].length;
   }
 }
 

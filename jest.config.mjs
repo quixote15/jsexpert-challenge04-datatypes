@@ -26,4 +26,5 @@ export default {
     "#ansi-styles": "chalk/source/vendor/ansi-styles/index.js",
     "#supports-color": "chalk/source/vendor/supports-color/index.js",
   },
+  transform: {},
 };
