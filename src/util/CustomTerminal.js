@@ -6,7 +6,6 @@ import asciichart from "asciichart";
 import terminalConfig from "../config/terminal.js";
 
 const TABLE_OPTIONS = terminalConfig.table;
-const table = chalkTable(TABLE_OPTIONS, data);
 
 const kPrint = Symbol("kPrint");
 // TODO: Criar um Symbol para a propriedade privada 'kData'
@@ -17,7 +16,7 @@ class CustomTerminal {
   constructor() {
     this[kPrint] = {};
     // TODO: inicializar a propriedade privada 'kData' como uma estrutura importante vista no curso
-    this[kData] = [];
+    this[kData] = new Map();
     this[kTerminal] = null;
   }
 
@@ -33,13 +32,16 @@ class CustomTerminal {
     // TODO: Parece que a linha a seguir precisa de um array gerado a partir dos valores da estrutura escolhida...🤔
     const data = this[kData]; //this[kData];
     //console.log('current KData: ', this[kData]);
-    const table = chalkTable(TABLE_OPTIONS, data);
+    const table = chalkTable(
+      TABLE_OPTIONS,
+      Array.from(data, ([key, value]) => value)
+    );
     this[kPrint] = console.draft(table);
   }
 
   hasDataToPrint() {
     // TODO: Como saber se tem informação dentro da estrutura escolhida?
-    return this[kData].length > 0;
+    return this.length > 0;
   }
   /**
    * Dado um array de objetos, adiciona cada registro aos dados a serem impressos.
@@ -53,18 +55,19 @@ class CustomTerminal {
 
     // Array.concat cria um novo array e copia o conteudo dos dois arrays
     // Array.push([]) preserva a referencia do primeiro array e copia os elementos do segundo
-    this[kData].push(...data);
+    for (const item of data) this[kData].set(item.id, item);
   }
 
   getDataById(id) {
     // TODO: Pegar informação da estrutura escolhida.
-    return this[kData].find((item) => item.id === id);
+    return this[kData].get(id);
   }
 
   removeDataById(id) {
     // TODO: Remove informação da estrutura escolhida.
-    const foundData = this[kData].find((item) => item.id === id);
-    this[kData] = this[kData].filter((item) => item.id !== id);
+    const foundData = this[kData].get(id);
+    if (!foundData) return;
+    this[kData].delete(id);
     return foundData;
   }
 
@@ -109,7 +112,7 @@ class CustomTerminal {
   }
 
   get length() {
-    return this[kData].length;
+    return this[kData].size;
   }
 }
 
