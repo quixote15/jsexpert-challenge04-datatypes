@@ -10,10 +10,10 @@ export default {
   collectCoverageFrom: ["src/**/*.js", "!src/index.js"],
   coverageThreshold: {
     global: {
-      branch: 100,
-      functions: 100,
-      lines: 100,
-      statements: 100,
+      branch: 70,
+      functions: 70,
+      lines: 70,
+      statements: 70,
     },
   },
 
