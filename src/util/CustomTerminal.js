@@ -12,6 +12,20 @@ const kPrint = Symbol("kPrint");
 const kTerminal = Symbol("kTerminal");
 const kData = Symbol("kData");
 
+/**
+ * Weakset e WeakMap não se aplicam nesse caso:
+ * 1. São coletados pelos Garbage collector em tempo de execução caso o Objeto perca a referencia
+ *    1.1 Isso torna a estrutura pouco confiável para salvar valores fornecidos pelo usuário
+ *    1.2 O tamanho da estrutura pode ser alterado em qualquer momento
+ *    1.3 Não há nem como controlar a hora exata que o Garbage collector irá agir
+ * 2. Precisamos de uma estrutura fácil de iterar para mostrar no terminal
+ *  2.1 WeakMap não suporta os métodos de iteração keys(), values(), entries()
+ *  2.2 WeakSet não suporta size, keys()
+ * 3. É necessaário ter o controle do tamanho da estrutura
+ *  3.1 Não é possível determinar o tamanho WeakSet e WeakMap
+ *  3.1 Garbage collector pode remover os todos items sem referencia, remover parcialmente ou esperar um momento melhor
+ *  3.1 Poderiamos tentar implementar um algoritmo para iterar nessas estrutura mas isso poderia levar á algoritmos não deterministicos
+ */
 class CustomTerminal {
   constructor() {
     this[kPrint] = {};

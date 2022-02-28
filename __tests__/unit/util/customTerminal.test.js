@@ -5,8 +5,7 @@ import terminalConfig from "../../../src/config/terminal";
 import validCryptos from "../../mocks/valid-cryptos.json";
 import CustomTerminal from "../../../src/util/CustomTerminal";
 import Crypto from "../../../src/entity/Crypto";
-//jest.mock("readline");
-//jest.mock("chalk");
+
 describe("#UsersEntity UnitTesting", () => {
   it("should get length of data on terminal", () => {
     const terminal = new CustomTerminal();
@@ -49,7 +48,7 @@ describe("#UsersEntity UnitTesting", () => {
 
   it("should remove crypto data by id", () => {
     const terminal = new CustomTerminal();
-
+    WeakSet;
     terminal.initialize();
 
     const cryptos = validCryptos.map((mockCrypto) => {
